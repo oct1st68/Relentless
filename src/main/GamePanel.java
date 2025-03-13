@@ -1,6 +1,9 @@
 package main;
 
 
+import Input.KeyboardInput;
+import entities.Player;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,10 +11,10 @@ import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable {
     //Draw Screen
-    KeyIput.KeyboardInput keyboardInput = new KeyIput.KeyboardInput();
+    KeyboardInput keyboardInput = new KeyboardInput();
     final int originalTitleSize = 16;
     final int scale = 3;
-    final int TitleSize = originalTitleSize * scale;
+    public final int TitleSize = originalTitleSize * scale;
     final int maxScreenCol = 20;
     final int maxScreenRow = 16;
     final int ScreenWidth = maxScreenCol * TitleSize;
@@ -19,6 +22,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     //FPS
     int FPS = 60;
+
+    Player player = new Player(this, keyboardInput);
 
     public GamePanel(int width, int height){
         this.setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
@@ -78,28 +83,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
     public void update(){
-        if(keyboardInput.upPressed){
-            playerY -= playerSpeed;
-        }
-        else if(keyboardInput.downPressed){
-            playerY += playerSpeed;
-        }
-        else if(keyboardInput.leftPressed){
-            playerX -= playerSpeed;
-        }
-        else if(keyboardInput.rightPressed){
-            playerX += playerSpeed;
-        }
+        player.update();
     }
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(playerX,playerY,TitleSize,TitleSize);
-        g2d.dispose(); //dispose of graphics context and release
+        Graphics2D g2 = (Graphics2D) g;
+        player.draw(g2);
+        g2.dispose(); //dispose of graphics context and release
     }
 }
