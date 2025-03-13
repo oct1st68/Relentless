@@ -5,55 +5,32 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+
 public class GamePanel extends JPanel implements Runnable {
-    public static int width;
-    public static int height;
+    final int originalTitleSize = 16;
+    final int scale = 3;
 
-    private Thread thread;
-    private boolean running = false;
-    private BufferedImage img;
-    private Graphics2D g;
-
-
+    final int TitleSize = originalTitleSize * scale;
+    final int maxScreenCol = 16;
+    final int maxScreenRow = 12;
+    final int ScreenWidth = maxScreenCol * TitleSize;
+    final int ScreenHeight = maxScreenRow * TitleSize;
+    Thread GameThread;
     public GamePanel(int width, int height){
-        this.width = width;
-        this.height = height;
-        setPreferredSize(new Dimension(width, height));
+        this.setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
         setFocusable(true);
         requestFocus();
     }
 
-    public void addNotify(){
-        super.addNotify();
-
-        if(thread == null) {
-            thread = new Thread(this, "GameThread");
-            thread.start();
-        }
+    public void StartGameThread{
+        GameThread = new Thread(this);
+        GameThread.start();
     }
 
-    public void init(){
-        running = true;
-
-        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        g = (Graphics2D) img.getGraphics();
-    }
-
+    @Override
     public void run(){
-    init();
 
-    while (running) {
-            update();
-            render();
-            draw();
-        }
     }
-
-    private int x = 0;
-    public void update(){
-        x++;
-        System.out.println(x);
-    }
-    public void render(){}
-    public void draw(){}
 }
