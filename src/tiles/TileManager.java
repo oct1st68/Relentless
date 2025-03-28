@@ -55,16 +55,21 @@ public class TileManager {
         }
     }
     public void draw(Graphics2D g2) {
-        for (int row = 0; row < gp.maxScreenRow; row++) {
-            for (int col = 0; col < gp.maxScreenCol; col++) {
-                int tileNum = mapTileNum[row][col];
-                int x = col * gp.TitleSize; // Changed from TitleSize to tileSize
-                int y = row * gp.TitleSize;
-                if (tileNum >= 0 && tileNum < tile.length && tile[tileNum] != null && tile[tileNum].image != null) {
-                    g2.drawImage(tile[tileNum].image, x, y, gp.TitleSize, gp.TitleSize, null);
-                } else {
-                    System.err.println("Invalid tile at [" + row + "][" + col + "]: " + tileNum);
-                }
+        int col = 0;
+        int row = 0;
+        int x = 0;
+        int y = 0;
+        while(col < gp.maxScreenCol && row < gp.maxScreenRow){
+            int tileNum = mapTileNum[row][col];
+            g2.drawImage(tile[0].image, x, y,gp.TitleSize,gp.TitleSize, null);
+            col++;
+            x += gp.TitleSize;
+
+            if(col == gp.maxScreenCol){
+                col = 0;
+                row++;
+                x = 0;
+                y += gp.TitleSize;
             }
         }
     }
