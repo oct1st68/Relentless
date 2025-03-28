@@ -51,7 +51,6 @@ public class TileManager {
             }
             br.close();
         }catch(Exception e){
-            e.printStackTrace();
         }
     }
     public void draw(Graphics2D g2) {
@@ -61,7 +60,7 @@ public class TileManager {
         int y = 0;
         while(col < gp.maxScreenCol && row < gp.maxScreenRow){
             int tileNum = mapTileNum[row][col];
-            g2.drawImage(tile[0].image, x, y,gp.TitleSize,gp.TitleSize, null);
+            g2.drawImage(tile[tileNum].image, x, y,gp.TitleSize,gp.TitleSize, null);
             col++;
             x += gp.TitleSize;
 
