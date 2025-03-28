@@ -2,6 +2,7 @@ package entities;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import main.GamePanel;
@@ -10,11 +11,16 @@ import Input.KeyboardInput;
 import javax.imageio.ImageIO;
 
 
+
 public class Player extends entities {
     GamePanel gp;
     KeyboardInput keyboardInput;
     private int health;
     private String direction;
+    public int spriteCounter = 0;
+    public int spriteNum = 1;
+
+
 
     public Player(GamePanel gp, KeyboardInput keyboardInput){
         this.gp = gp;
@@ -48,21 +54,30 @@ public class Player extends entities {
     }
 
     public void update(){
-        if(keyboardInput.upPressed){
-            direction = "up";
-            y -= speed;
-        }
-        else if(keyboardInput.downPressed){
-            direction = "down";
-            y += speed;
-        }
-        else if(keyboardInput.leftPressed){
-            direction = "left";
-            x -= speed;
-        }
-        else if(keyboardInput.rightPressed){
-            direction = "right";
-            x += speed;
+        if(keyboardInput.upPressed || keyboardInput.downPressed || keyboardInput.leftPressed || keyboardInput.rightPressed) {
+            if (keyboardInput.upPressed) {
+                direction = "up";
+                y -= speed;
+            } else if (keyboardInput.downPressed) {
+                direction = "down";
+                y += speed;
+            } else if (keyboardInput.leftPressed) {
+                direction = "left";
+                x -= speed;
+            } else if (keyboardInput.rightPressed) {
+                direction = "right";
+                x += speed;
+            }
+
+            spriteCounter++;
+            if (spriteCounter > 10) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
         }
     }
 
@@ -71,16 +86,39 @@ public class Player extends entities {
 
         switch (direction) {
             case "up":
-                image = up1;
+                if(spriteNum == 1){
+                    image = up1;
+                }
+                if(spriteNum == 2){
+                    image = up2;
+
+                }
                 break;
             case "down":
-                image = down1;
+                if(spriteNum == 1){
+                    image = down1;
+                }
+                if(spriteNum == 2){
+                    image = down2;
+
+                }
                 break;
             case "left":
-                image = left1;
+                if(spriteNum == 1){
+                    image = left1;
+                }
+                if(spriteNum == 2){
+                    image = left2;
+
+                }
                 break;
             case "right":
-                image = right1;
+                if(spriteNum == 1){
+                    image = right1;
+                }
+                if(spriteNum == 2){
+                    image = right2;
+                }
                 break;
             }
             g2.drawImage(image, x, y, gp.TitleSize, gp.TitleSize, null);

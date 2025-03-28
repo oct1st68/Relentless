@@ -3,10 +3,10 @@ package main;
 
 import Input.KeyboardInput;
 import entities.Player;
+import tiles.TileManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -15,14 +15,15 @@ public class GamePanel extends JPanel implements Runnable {
     final int originalTitleSize = 16;
     final int scale = 3;
     public final int TitleSize = originalTitleSize * scale;
-    final int maxScreenCol = 20;
-    final int maxScreenRow = 16;
+    public final int maxScreenCol = 20;
+    public final int maxScreenRow = 16;
     final int ScreenWidth = maxScreenCol * TitleSize;
     final int ScreenHeight = maxScreenRow * TitleSize;
 
     //FPS
     int FPS = 60;
 
+    TileManager TileM = new TileManager(this);
     Player player = new Player(this, keyboardInput);
 
     public GamePanel(int width, int height){
@@ -90,6 +91,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        TileM.draw(g2);
         player.draw(g2);
         g2.dispose(); //dispose of graphics context and release
     }
